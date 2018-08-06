@@ -8,6 +8,7 @@
   },
   "author": "jpparent",
   "license": "MIT",
+  "repository": "https://github.com/jpparent/js13k-boilerplate",
   "devDependencies": {
     "gulp": "^4.0.0",
     "gulp-clean-css": "^3.9.4",
