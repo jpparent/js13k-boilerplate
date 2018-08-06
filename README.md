@@ -1,2 +1,2 @@
 # js13k-boilerplate
-simple boilerplate code to kickstart js13k
+[WIP!] simple boilerplate code to kickstart js13k
