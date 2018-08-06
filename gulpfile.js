@@ -94,5 +94,5 @@ function watcher() {
 	gulp.watch(paths.src.html, gulp.series(buildHTML, zipBuild));
 }
 
-var build = gulp.series(/*clean, */gulp.parallel(buildJS, buildCSS, buildHTML), zipBuild, watcher);
+var build = gulp.series(clean, gulp.parallel(buildJS, buildCSS), buildHTML, zipBuild, watcher);
 exports.default = build;
