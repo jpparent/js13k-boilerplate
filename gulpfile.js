@@ -83,7 +83,7 @@ function zipBuild() {
 
 function clean() {
 	return pump([
-		gulp.src(paths.build.dir, paths.dist.dir),
+		gulp.src([paths.build.dir, paths.dist.dir]),
 		rimraf()
 	]);
 }
