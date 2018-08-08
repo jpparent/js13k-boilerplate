@@ -47,8 +47,24 @@ _.loop = function(frame){
 _.update = function(dt){
 	for (var i = _.entities.length - 1; i >= 0; i--) {
 		_.entities[i].update(dt);
+
 	}
+
+	_.checkCollisions();
 };
+
+_.checkCollisions = function(){
+	for (var i = _.entities.length - 1; i >= 0; i--) {
+		if (i !== 0){
+			var obj1 = _.entities[i];
+			var obj2 = _.entities[i-1];
+			var collisionDetected = _.checkSpheresCollide(obj1, obj2);
+			if (collisionDetected){
+				alert("collisionDetected");
+			}
+		}
+	}
+}
 
 _.render = function(dt){
 	_.Draw.clear();
@@ -74,6 +90,20 @@ _.spawnBumber = function(x, y) {
 	_.entities.push(new _.Bumber(x, y))
 }
 
+_.checkSpheresCollide = function(obj1, obj2){
+	var rad1 = obj1.size;
+	var rad2 = obj2.size;
+
+	var dx = obj2.x - obj1.x;
+	var dy = obj2.y - obj1.y;
+	var distanceBetweenBothSq = dx*dx + dy*dy;
+
+	if (distanceBetweenBothSq < Math.pow(rad1 + rad2, 2)){
+		return true;
+	}
+
+	return false;
+}
 
 // ========== DOM event handlers ==============
 // TODO: change to minivents ?
