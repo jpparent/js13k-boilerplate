@@ -8,7 +8,7 @@ var gulp = require('gulp'),
 	size = require('gulp-size'),
 	watch = require('gulp-watch'),
 	rename = require('gulp-rename'),
-	rimraf = require('gulp-rimraf'),
+	del = require('del'),
 	inject = require('gulp-inject');
 
 var paths = {
@@ -40,16 +40,16 @@ function buildCSS() {
 }
 
 function buildJS() {
-	return pump([ 
-		gulp.src(paths.src.js),
-		concat(paths.build.js),
-		uglify(),
-		gulp.dest(paths.build.dir)
-	]);
-	// return gulp.src(paths.src.js)
-	// 	.pipe(concat(paths.build.js))
-	// 	.pipe(uglify())
-	// 	.pipe(gulp.dest(paths.build.dir));
+	// return pump([ 
+	// 	gulp.src(paths.src.js),
+	// 	concat(paths.build.js),
+	// 	uglify(),
+	// 	gulp.dest(paths.build.dir)
+	// ]);
+	return gulp.src(paths.src.js)
+		.pipe(concat(paths.build.js))
+		.pipe(uglify())
+		.pipe(gulp.dest(paths.build.dir));
 }
 
 function buildHTML() {
@@ -82,10 +82,7 @@ function zipBuild() {
 }
 
 function clean() {
-	return pump([
-		gulp.src([paths.build.dir, paths.dist.dir]),
-		rimraf()
-	]);
+	return del([paths.build.dir, paths.dist.dir]);
 }
 
 function watcher() {	
