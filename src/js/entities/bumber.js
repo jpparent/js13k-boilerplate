@@ -4,12 +4,18 @@ _.Bumber = function(x, y){
 	this.x = x;
 	this.y = y;
 	this.size = 64;
+	this.shrinkMult = 1.5;
 	this.color = '#FFF';
 
 	Events(this);
 
 	this.update = function(dt) {
 
+		this.size -= this.size * this.shrinkMult * dt;
+
+		if (this.size < 16){
+			_.removeEntityWithUID(this.uid);
+		}
 	}
 
 	this.render = function(dt) {

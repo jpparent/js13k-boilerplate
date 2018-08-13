@@ -17,7 +17,7 @@ _.Ball = function (x, y){
 
 		if (this.y >= 900){
 			_.removeEntityWithUID(this.uid);
-			_.currentState.emit("exit");
+			_.setState("menu");
 		}
 	}
 

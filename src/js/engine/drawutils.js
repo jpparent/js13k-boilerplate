@@ -8,5 +8,10 @@ _.Draw = {
 		_.ctx.arc(x, y, r, 0, Math.PI * 2);
 		_.ctx.fillStyle = color;
 		_.ctx.fill();
+	},
+
+	text: function(x, y, text, color){
+		_.ctx.fillStyle = color;
+		_.ctx.fillText(text, x, y);
 	}
 };

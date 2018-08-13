@@ -13,7 +13,7 @@ var pX = 0; // pointer X
 var pY = 0; // pointer Y
 
 _.entities = [];
-_.states = [];
+_.states = {};
 _.currentState;
 
 _.init = function (){
@@ -28,7 +28,7 @@ _.init = function (){
 	_.lastFrame = 0;
 	_.step = 1/60; // run at 60FPS
 
-	_.currentState = _.states[0];
+	_.currentState = _.states["menu"];
 	_.currentState.emit("start");
 	_.loop(window.performance.now());
 };
@@ -40,21 +40,11 @@ _.loop = function(frame){
 	dt = dt + Math.min(1, (frame - _.lastFrame)/1000);
 	while (dt > _.step){
 		dt = dt - _.step;
-		_.update(_.step);
+		_.currentState.update(_.step);
 	}
 	
-	//_.update(dt);
-	_.render(dt);
+	_.currentState.render(dt);
 	_.lastFrame = frame;
-};
-
-_.update = function(dt){
-	for (var i = _.entities.length - 1; i >= 0; i--) {
-		_.entities[i].update(dt);
-
-	}
-
-	_.checkCollisions(_.entities);
 };
 
 _.checkCollisions = function(entities){
@@ -72,12 +62,10 @@ _.checkCollisions = function(entities){
 	}
 }
 
-_.render = function(dt){
-	_.Draw.clear();
-
-	for (var i = _.entities.length - 1; i >= 0; i--) {
-		_.entities[i].render(dt);
-	}
+_.setState = function(newState){
+	_.currentState.emit("exit");
+	_.currentState = _.states[newState];
+	_.currentState.emit("start");
 }
 
 _.spawnBall = function (){
@@ -115,8 +103,8 @@ _.checkSpheresCollide = function(obj1, obj2){
 // TODO: change to minivents ?
 window.addEventListener('load', function(e){ 
 	_.init();
-	_.spawnBall();
-	}, false);
+
+}, false);
 
 function AddEventListeners () {
 
@@ -126,7 +114,7 @@ function AddEventListeners () {
 		if (e.button === 0 
 			&& e.pageX - _.canvas.offsetLeft <= _.width 
 			&& e.pageY - _.canvas.offsetTop <= _.height){
-			_.spawnBumber(pX, pY);
+			_.currentState.emit("click", {x: pX, y: pY});
 			e.preventDefault();
 		}
 	});
