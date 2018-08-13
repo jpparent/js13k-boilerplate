@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 var GRAVITY = 9.8,
 	WIDTH = 600,
@@ -14,6 +14,7 @@ var pY = 0; // pointer Y
 
 _.entities = [];
 _.states = [];
+_.currentState;
 
 _.init = function (){
 	_.canvas = document.getElementById('canvas');
@@ -23,9 +24,12 @@ _.init = function (){
 
 	AddEventListeners();
 
+
 	_.lastFrame = 0;
 	_.step = 1/60; // run at 60FPS
 
+	_.currentState = _.states[0];
+	_.currentState.emit("start");
 	_.loop(window.performance.now());
 };
 
@@ -50,17 +54,19 @@ _.update = function(dt){
 
 	}
 
-	_.checkCollisions();
+	_.checkCollisions(_.entities);
 };
 
-_.checkCollisions = function(){
-	for (var i = _.entities.length - 1; i >= 0; i--) {
-		if (i !== 0){
-			var obj1 = _.entities[i];
-			var obj2 = _.entities[i-1];
-			var collisionDetected = _.checkSpheresCollide(obj1, obj2);
-			if (collisionDetected){
-				alert("collisionDetected");
+_.checkCollisions = function(entities){
+	for (var i = entities.length - 1; i >= 0; i--) {
+		var obj1 = entities[i];
+		for (var j = entities.length -1; j >= 0; j--) {
+			if (i !== j){
+				var obj2 = entities[j];
+				var collisionDetected = _.checkSpheresCollide(obj1, obj2);
+				if (collisionDetected){
+					obj1.emit("collision", obj2);
+				}
 			}
 		}
 	}

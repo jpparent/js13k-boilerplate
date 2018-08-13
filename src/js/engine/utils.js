@@ -1,5 +1,3 @@
-"use strict";
-
 _.utils = {};
 
 window.requestAnimFrame = (function(){

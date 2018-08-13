@@ -1,5 +1,3 @@
-"use strict"
-
 _.Draw = {
 	clear: function() {
 		_.ctx.clearRect(0, 0, _.width, _.height);

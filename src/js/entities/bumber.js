@@ -1,11 +1,12 @@
-"use strict"
-
 _.Bumber = function(x, y){
 	this.uid = _.utils.generateUID();
+	this.tag = "bumper";
 	this.x = x;
 	this.y = y;
 	this.size = 64;
 	this.color = '#FFF';
+
+	Events(this);
 
 	this.update = function(dt) {
 
