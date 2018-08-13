@@ -15,8 +15,8 @@ var paths = {
 	src: {
 		css: 'src/css/*.css',
 		js: [
-			'src/js/game.js', // explicitly first in order to concat properly
-			'src/js/*.js'
+			'src/js/engine/game.js', // explicitly first in order to concat properly
+			'src/js/**/*.js'
 		],
 		html: 'src/index.html'
 	},
@@ -42,13 +42,13 @@ function buildCSS() {
 function buildJS() {
 	// return pump([ 
 	// 	gulp.src(paths.src.js),
-	// 	concat(paths.build.js),
 	// 	uglify(),
+	// 	concat(paths.build.js),
 	// 	gulp.dest(paths.build.dir)
 	// ]);
 	return gulp.src(paths.src.js)
-		.pipe(concat(paths.build.js))
 		.pipe(uglify())
+		.pipe(concat(paths.build.js))
 		.pipe(gulp.dest(paths.build.dir));
 }
 
